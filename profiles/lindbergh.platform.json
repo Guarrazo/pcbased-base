@@ -1,0 +1,13 @@
+{
+  "id": "lindbergh",
+  "cpu_architecture": "x86_32",
+  "default_cpu_features": ["sse", "sse2", "x87"],
+  "default_graphics_api": "opengl_cg",
+  "default_required_apis": ["libc_shim", "cg_3_1", "gl_1_x"],
+  "device_paths_to_intercept": [
+    "/dev/lbb",
+    "/dev/i2c/0",
+    "/dev/ttyS0",
+    "/dev/ttyS1"
+  ]
+}

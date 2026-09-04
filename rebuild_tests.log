@@ -1,0 +1,9 @@
+[ 11%] Built target pas_core
+[ 22%] Built target pas_os
+[ 45%] Built target pas_cpu
+[ 51%] Built target pas_patch
+[ 62%] Built target pas_profiles
+[ 65%] Building CXX object tests/CMakeFiles/pas_tests.dir/main.cpp.obj
+[ 68%] Linking CXX executable pas_tests.exe
+[100%] Built target pas_tests
+Exit code: 0 

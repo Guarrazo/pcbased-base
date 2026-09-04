@@ -1,0 +1,13 @@
+{
+	"InstallScripts" : 
+	[
+		"C:/Users/Guarrazo/Desktop/pc-arcade-switch/build-host/cmake_install.cmake",
+		"C:/Users/Guarrazo/Desktop/pc-arcade-switch/build-host/src/core/cmake_install.cmake",
+		"C:/Users/Guarrazo/Desktop/pc-arcade-switch/build-host/src/cpu/cmake_install.cmake",
+		"C:/Users/Guarrazo/Desktop/pc-arcade-switch/build-host/src/os/cmake_install.cmake",
+		"C:/Users/Guarrazo/Desktop/pc-arcade-switch/build-host/src/patch/cmake_install.cmake",
+		"C:/Users/Guarrazo/Desktop/pc-arcade-switch/build-host/src/profiles/cmake_install.cmake",
+		"C:/Users/Guarrazo/Desktop/pc-arcade-switch/build-host/tests/cmake_install.cmake"
+	],
+	"Parallel" : false
+}

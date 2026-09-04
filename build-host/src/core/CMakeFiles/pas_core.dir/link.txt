@@ -1,0 +1,2 @@
+C:/devkitPro/msys2/usr/bin/ar.exe qc libpas_core.a CMakeFiles/pas_core.dir/log.cpp.obj CMakeFiles/pas_core.dir/config.cpp.obj CMakeFiles/pas_core.dir/module.cpp.obj
+C:/devkitPro/msys2/usr/bin/ranlib.exe libpas_core.a

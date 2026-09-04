@@ -1,0 +1,1 @@
+ ../src/core/libpas_core.a ../src/patch/libpas_patch.a ../src/cpu/libpas_cpu.a ../src/os/libpas_os.a ../src/profiles/libpas_profiles.a ../src/patch/libpas_patch.a ../src/core/libpas_core.a -lkernel32 -luser32 -lgdi32 -lwinspool -lshell32 -lole32 -loleaut32 -luuid -lcomdlg32 -ladvapi32 

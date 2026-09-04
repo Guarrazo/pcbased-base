@@ -1,0 +1,26 @@
+{
+  "id": "example_lindbergh_title",
+  "display_name": "[PLACEHOLDER -- ver docs/ROADMAP.md, titulo real sin decidir]",
+  "platform": "lindbergh",
+  "executable": "game.elf",
+  "architecture": "x86_32",
+  "cpu_features": ["sse", "sse2", "x87"],
+  "graphics_api": "opengl_cg",
+  "required_apis": ["libc_shim", "cg_3_1", "gl_1_x"],
+  "arcade_io": {
+    "device_profile": "lindbergh_default_2p"
+  },
+  "shader_bundle": "example_shaders.dksh_pack",
+  "patches": [],
+  "hooks": [],
+  "controller_mapping": "lindbergh_default",
+  "display": { "internal_resolution": [1280, 720], "aspect": "4:3" },
+  "network": { "mode": "disabled" },
+  "timing": { "rdtsc_scale": "auto" },
+  "filesystem": { "root": "sdmc:/arcade/example_lindbergh_title/" },
+  "dll_overrides": [],
+  "compatibility_flags": [],
+  "code_cache_size_mb": 64,
+  "launch_parameters": [],
+  "revision": 1
+}

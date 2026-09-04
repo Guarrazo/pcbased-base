@@ -1,0 +1,2 @@
+C:/devkitPro/msys2/usr/bin/ar.exe qc libpas_profiles.a CMakeFiles/pas_profiles.dir/json_lite.cpp.obj CMakeFiles/pas_profiles.dir/game_profile.cpp.obj CMakeFiles/pas_profiles.dir/platform_profile.cpp.obj
+C:/devkitPro/msys2/usr/bin/ranlib.exe libpas_profiles.a
