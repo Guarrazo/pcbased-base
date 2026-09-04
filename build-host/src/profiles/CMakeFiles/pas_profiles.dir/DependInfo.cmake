@@ -8,9 +8,9 @@ set(CMAKE_DEPENDS_LANGUAGES
 
 # The set of dependency files which are needed:
 set(CMAKE_DEPENDS_DEPENDENCY_FILES
-  "C:/Users/Guarrazo/Desktop/pc-arcade-switch/src/profiles/game_profile.cpp" "src/profiles/CMakeFiles/pas_profiles.dir/game_profile.cpp.obj" "gcc" "src/profiles/CMakeFiles/pas_profiles.dir/game_profile.cpp.obj.d"
-  "C:/Users/Guarrazo/Desktop/pc-arcade-switch/src/profiles/json_lite.cpp" "src/profiles/CMakeFiles/pas_profiles.dir/json_lite.cpp.obj" "gcc" "src/profiles/CMakeFiles/pas_profiles.dir/json_lite.cpp.obj.d"
-  "C:/Users/Guarrazo/Desktop/pc-arcade-switch/src/profiles/platform_profile.cpp" "src/profiles/CMakeFiles/pas_profiles.dir/platform_profile.cpp.obj" "gcc" "src/profiles/CMakeFiles/pas_profiles.dir/platform_profile.cpp.obj.d"
+  "/c/Users/Guarrazo/Desktop/pc-arcade-switch/pcbased-switch/src/profiles/game_profile.cpp" "src/profiles/CMakeFiles/pas_profiles.dir/game_profile.cpp.o" "gcc" "src/profiles/CMakeFiles/pas_profiles.dir/game_profile.cpp.o.d"
+  "/c/Users/Guarrazo/Desktop/pc-arcade-switch/pcbased-switch/src/profiles/json_lite.cpp" "src/profiles/CMakeFiles/pas_profiles.dir/json_lite.cpp.o" "gcc" "src/profiles/CMakeFiles/pas_profiles.dir/json_lite.cpp.o.d"
+  "/c/Users/Guarrazo/Desktop/pc-arcade-switch/pcbased-switch/src/profiles/platform_profile.cpp" "src/profiles/CMakeFiles/pas_profiles.dir/platform_profile.cpp.o" "gcc" "src/profiles/CMakeFiles/pas_profiles.dir/platform_profile.cpp.o.d"
   )
 
 # Targets to which this target links which contain Fortran sources.

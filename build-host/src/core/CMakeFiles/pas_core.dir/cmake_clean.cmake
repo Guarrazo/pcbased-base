@@ -1,10 +1,10 @@
 file(REMOVE_RECURSE
-  "CMakeFiles/pas_core.dir/config.cpp.obj"
-  "CMakeFiles/pas_core.dir/config.cpp.obj.d"
-  "CMakeFiles/pas_core.dir/log.cpp.obj"
-  "CMakeFiles/pas_core.dir/log.cpp.obj.d"
-  "CMakeFiles/pas_core.dir/module.cpp.obj"
-  "CMakeFiles/pas_core.dir/module.cpp.obj.d"
+  "CMakeFiles/pas_core.dir/config.cpp.o"
+  "CMakeFiles/pas_core.dir/config.cpp.o.d"
+  "CMakeFiles/pas_core.dir/log.cpp.o"
+  "CMakeFiles/pas_core.dir/log.cpp.o.d"
+  "CMakeFiles/pas_core.dir/module.cpp.o"
+  "CMakeFiles/pas_core.dir/module.cpp.o.d"
   "libpas_core.a"
   "libpas_core.pdb"
 )

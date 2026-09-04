@@ -1,2 +1,2 @@
-C:/devkitPro/msys2/usr/bin/ar.exe qc libpas_patch.a CMakeFiles/pas_patch.dir/patch_engine.cpp.obj
-C:/devkitPro/msys2/usr/bin/ranlib.exe libpas_patch.a
+/usr/bin/ar.exe qc libpas_patch.a CMakeFiles/pas_patch.dir/patch_engine.cpp.o
+/usr/bin/ranlib.exe libpas_patch.a

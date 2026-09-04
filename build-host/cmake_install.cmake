@@ -1,8 +1,8 @@
-# Install script for directory: C:/Users/Guarrazo/Desktop/pc-arcade-switch
+# Install script for directory: /c/Users/Guarrazo/Desktop/pc-arcade-switch/pcbased-switch
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
-  set(CMAKE_INSTALL_PREFIX "C:/Program Files (x86)/pc-arcade-switch")
+  set(CMAKE_INSTALL_PREFIX "/usr/local")
 endif()
 string(REGEX REPLACE "/$" "" CMAKE_INSTALL_PREFIX "${CMAKE_INSTALL_PREFIX}")
 
@@ -34,24 +34,24 @@ endif()
 
 # Set path to fallback-tool for dependency-resolution.
 if(NOT DEFINED CMAKE_OBJDUMP)
-  set(CMAKE_OBJDUMP "C:/devkitPro/msys2/usr/bin/objdump.exe")
+  set(CMAKE_OBJDUMP "/usr/bin/objdump.exe")
 endif()
 
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   # Include the install script for each subdirectory.
-  include("C:/Users/Guarrazo/Desktop/pc-arcade-switch/build-host/src/core/cmake_install.cmake")
-  include("C:/Users/Guarrazo/Desktop/pc-arcade-switch/build-host/src/cpu/cmake_install.cmake")
-  include("C:/Users/Guarrazo/Desktop/pc-arcade-switch/build-host/src/os/cmake_install.cmake")
-  include("C:/Users/Guarrazo/Desktop/pc-arcade-switch/build-host/src/patch/cmake_install.cmake")
-  include("C:/Users/Guarrazo/Desktop/pc-arcade-switch/build-host/src/profiles/cmake_install.cmake")
-  include("C:/Users/Guarrazo/Desktop/pc-arcade-switch/build-host/tests/cmake_install.cmake")
+  include("/c/Users/Guarrazo/Desktop/pc-arcade-switch/pcbased-switch/build-host/src/core/cmake_install.cmake")
+  include("/c/Users/Guarrazo/Desktop/pc-arcade-switch/pcbased-switch/build-host/src/cpu/cmake_install.cmake")
+  include("/c/Users/Guarrazo/Desktop/pc-arcade-switch/pcbased-switch/build-host/src/os/cmake_install.cmake")
+  include("/c/Users/Guarrazo/Desktop/pc-arcade-switch/pcbased-switch/build-host/src/patch/cmake_install.cmake")
+  include("/c/Users/Guarrazo/Desktop/pc-arcade-switch/pcbased-switch/build-host/src/profiles/cmake_install.cmake")
+  include("/c/Users/Guarrazo/Desktop/pc-arcade-switch/pcbased-switch/build-host/tests/cmake_install.cmake")
 
 endif()
 
 string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
        "${CMAKE_INSTALL_MANIFEST_FILES}")
 if(CMAKE_INSTALL_LOCAL_ONLY)
-  file(WRITE "C:/Users/Guarrazo/Desktop/pc-arcade-switch/build-host/install_local_manifest.txt"
+  file(WRITE "/c/Users/Guarrazo/Desktop/pc-arcade-switch/pcbased-switch/build-host/install_local_manifest.txt"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")
 endif()
 if(CMAKE_INSTALL_COMPONENT)
@@ -67,6 +67,6 @@ else()
 endif()
 
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
-  file(WRITE "C:/Users/Guarrazo/Desktop/pc-arcade-switch/build-host/${CMAKE_INSTALL_MANIFEST}"
+  file(WRITE "/c/Users/Guarrazo/Desktop/pc-arcade-switch/pcbased-switch/build-host/${CMAKE_INSTALL_MANIFEST}"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")
 endif()

@@ -8,7 +8,7 @@ set(CMAKE_DEPENDS_LANGUAGES
 
 # The set of dependency files which are needed:
 set(CMAKE_DEPENDS_DEPENDENCY_FILES
-  "C:/Users/Guarrazo/Desktop/pc-arcade-switch/src/patch/patch_engine.cpp" "src/patch/CMakeFiles/pas_patch.dir/patch_engine.cpp.obj" "gcc" "src/patch/CMakeFiles/pas_patch.dir/patch_engine.cpp.obj.d"
+  "/c/Users/Guarrazo/Desktop/pc-arcade-switch/pcbased-switch/src/patch/patch_engine.cpp" "src/patch/CMakeFiles/pas_patch.dir/patch_engine.cpp.o" "gcc" "src/patch/CMakeFiles/pas_patch.dir/patch_engine.cpp.o.d"
   )
 
 # Targets to which this target links which contain Fortran sources.

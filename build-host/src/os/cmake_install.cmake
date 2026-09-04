@@ -1,8 +1,8 @@
-# Install script for directory: C:/Users/Guarrazo/Desktop/pc-arcade-switch/src/os
+# Install script for directory: /c/Users/Guarrazo/Desktop/pc-arcade-switch/pcbased-switch/src/os
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
-  set(CMAKE_INSTALL_PREFIX "C:/Program Files (x86)/pc-arcade-switch")
+  set(CMAKE_INSTALL_PREFIX "/usr/local")
 endif()
 string(REGEX REPLACE "/$" "" CMAKE_INSTALL_PREFIX "${CMAKE_INSTALL_PREFIX}")
 
@@ -34,12 +34,12 @@ endif()
 
 # Set path to fallback-tool for dependency-resolution.
 if(NOT DEFINED CMAKE_OBJDUMP)
-  set(CMAKE_OBJDUMP "C:/devkitPro/msys2/usr/bin/objdump.exe")
+  set(CMAKE_OBJDUMP "/usr/bin/objdump.exe")
 endif()
 
 string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
        "${CMAKE_INSTALL_MANIFEST_FILES}")
 if(CMAKE_INSTALL_LOCAL_ONLY)
-  file(WRITE "C:/Users/Guarrazo/Desktop/pc-arcade-switch/build-host/src/os/install_local_manifest.txt"
+  file(WRITE "/c/Users/Guarrazo/Desktop/pc-arcade-switch/pcbased-switch/build-host/src/os/install_local_manifest.txt"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")
 endif()

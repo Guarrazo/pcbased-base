@@ -1,116 +1,137 @@
 #include "cpu/translator/ir_builder.h"
 #include "core/log.h"
 
-// Alcance actual (ver docs/ROADMAP.md, docs/JIT.md): lowering directo,
-// instruccion a instruccion, SIN dataflow entre instrucciones (cada
-// operando se relee con un LoadReg nuevo aunque el valor ya estuviera en
-// un Value anterior del mismo bloque). Esto es deliberadamente sub-optimo
-// pero correcto y simple -- Arm64CodeGen (src/cpu/jit/arm64_codegen.h)
-// trata LoadReg/StoreReg como practicamente gratis (registro x86 fijado a
-// un registro ARM64 concreto, ver docs/JIT.md "Convencion de registros"),
-// asi que el coste real de esta falta de optimizacion es bajo. Optimizar
-// esto (eliminar LoadReg redundantes) es trabajo futuro, no correctitud.
-//
-// Cubre: MOV reg<-reg, MOV reg<-imm32, Grupo1 reg,imm (ADD/SUB/AND/OR/XOR/CMP).
-// NO cubre todavia: cualquier instruccion con operando de memoria (LEA,
-// PUSH/POP, MOV con ModRM de memoria) -- se registra como error explicito,
-// ver docs/ROADMAP.md sobre por que (falta el diseÃ±o de traduccion de
-// direcciones guest->host, ver docs/JIT.md).
-
 namespace pas::cpu::translator {
 
 namespace {
 
-uint32_t g_next_value_id = 1; // reiniciado por bloque, ver BuildBlock()
+class BlockBuilder {
+public:
+    ir::Block block;
+    uint32_t next_value_id_ = 1;
 
-ir::Value NewValue() {
-    ir::Value v;
-    v.id = g_next_value_id++;
-    return v;
-}
-
-ir::Value EmitLoadReg(ir::Block& block, x86::Reg reg) {
-    ir::Instruction inst;
-    inst.op = ir::OpCode::LoadReg;
-    inst.dst = NewValue();
-    inst.reg_index = static_cast<uint8_t>(reg);
-    block.instructions.push_back(inst);
-    return inst.dst;
-}
-
-void EmitStoreReg(ir::Block& block, x86::Reg reg, ir::Value src) {
-    ir::Instruction inst;
-    inst.op = ir::OpCode::StoreReg;
-    inst.reg_index = static_cast<uint8_t>(reg);
-    inst.src[0] = src;
-    block.instructions.push_back(inst);
-}
-
-ir::Value EmitLoadImm(ir::Block& block, uint64_t imm) {
-    ir::Instruction inst;
-    inst.op = ir::OpCode::LoadImm;
-    inst.dst = NewValue();
-    inst.immediate = imm;
-    block.instructions.push_back(inst);
-    return inst.dst;
-}
-
-ir::Value EmitBinOp(ir::Block& block, ir::OpCode op, ir::Value a, ir::Value b) {
-    ir::Instruction inst;
-    inst.op = op;
-    inst.dst = NewValue();
-    inst.src[0] = a;
-    inst.src[1] = b;
-    block.instructions.push_back(inst);
-    return inst.dst;
-}
-
-void EmitReturn(ir::Block& block) {
-    ir::Instruction inst;
-    inst.op = ir::OpCode::Return;
-    block.instructions.push_back(inst);
-}
-
-// Devuelve el Value que representa el operando fuente 'op' -- solo
-// soporta Register/Immediate (memoria: ver comentario de cabecera).
-bool LoadOperandValue(ir::Block& block, const x86::X86Operand& op, ir::Value& out) {
-    if (op.kind == x86::X86Operand::Kind::Register) {
-        out = EmitLoadReg(block, op.reg);
-        return true;
+    ir::Value NextValue() {
+        ir::Value v;
+        v.id = next_value_id_++;
+        return v;
     }
-    if (op.kind == x86::X86Operand::Kind::Immediate) {
-        out = EmitLoadImm(block, static_cast<uint64_t>(op.immediate));
-        return true;
+
+    ir::Value MakeRegValue(x86::Reg r) {
+        ir::Instruction load;
+        load.op = ir::OpCode::LoadReg;
+        load.reg_index = static_cast<uint8_t>(r);
+        load.dst = NextValue();
+        block.instructions.push_back(load);
+        return load.dst;
     }
-    return false; // Memory -- no soportado todavia
-}
+
+    ir::Value MakeRegOrImm(const x86::X86Operand& op) {
+        if (op.kind == x86::X86Operand::Kind::Immediate) {
+            ir::Instruction load;
+            load.op = ir::OpCode::LoadImm;
+            load.immediate = op.immediate;
+            load.dst = NextValue();
+            block.instructions.push_back(load);
+            return load.dst;
+        }
+        return MakeRegValue(op.reg);
+    }
+
+    void FillMemOperand(ir::Instruction& ir, const x86::X86Operand& mem) {
+        ir.mem_size = static_cast<uint8_t>(mem.size);
+        if (mem.has_base) {
+            ir.mem_has_base = true;
+            ir.mem_base_reg = static_cast<uint8_t>(mem.base_reg);
+        }
+        if (mem.has_index) {
+            ir.mem_has_index = true;
+            ir.mem_index_reg = static_cast<uint8_t>(mem.index_reg);
+            ir.mem_scale = mem.scale;
+        }
+        ir.mem_disp = mem.disp;
+    }
+
+    void AppendStoreReg(x86::Reg r, ir::Value v) {
+        ir::Instruction store;
+        store.op = ir::OpCode::StoreReg;
+        store.reg_index = static_cast<uint8_t>(r);
+        store.src[0] = v;
+        block.instructions.push_back(store);
+    }
+};
 
 } // namespace
 
 ir::Block IrBuilder::BuildBlock(const x86::X86Instruction* instructions, size_t count) {
-    ir::Block block;
-    g_next_value_id = 1; // Values son locales a cada bloque
-    if (count > 0) {
-        block.guest_address = instructions[0].address;
-    }
+    BlockBuilder b;
+    b.block.guest_address = instructions[0].address;
 
     for (size_t i = 0; i < count; ++i) {
-        const x86::X86Instruction& x = instructions[i];
+        const auto& inst = instructions[i];
 
-        switch (x.opcode) {
+        switch (inst.opcode) {
             case x86::Opcode::Mov: {
-                if (x.operands[0].kind != x86::X86Operand::Kind::Register) {
-                    PAS_LOG_ERROR("IrBuilder", "MOV con destino no-registro no soportado "
-                                               "todavia (addr=0x%08x)", x.address);
-                    goto unsupported;
+                if (inst.operands[0].kind == x86::X86Operand::Kind::Memory &&
+                    inst.operands[1].kind == x86::X86Operand::Kind::Register) {
+                    ir::Instruction ir;
+                    ir.op = ir::OpCode::StoreMem;
+                    ir.src[0] = b.MakeRegValue(inst.operands[1].reg);
+                    b.FillMemOperand(ir, inst.operands[0]);
+                    b.block.instructions.push_back(ir);
+                } else if (inst.operands[0].kind == x86::X86Operand::Kind::Register &&
+                           inst.operands[1].kind == x86::X86Operand::Kind::Memory) {
+                    ir::Instruction ir;
+                    ir.op = ir::OpCode::LoadMem;
+                    b.FillMemOperand(ir, inst.operands[1]);
+                    ir.dst = b.NextValue();
+                    b.block.instructions.push_back(ir);
+                    b.AppendStoreReg(inst.operands[0].reg, ir.dst);
+                } else if (inst.operands[0].kind == x86::X86Operand::Kind::Register &&
+                           inst.operands[1].kind == x86::X86Operand::Kind::Immediate) {
+                    ir::Instruction ir;
+                    ir.op = ir::OpCode::LoadImm;
+                    ir.immediate = inst.operands[1].immediate;
+                    ir.dst = b.NextValue();
+                    b.block.instructions.push_back(ir);
+                    b.AppendStoreReg(inst.operands[0].reg, ir.dst);
+                } else if (inst.operands[0].kind == x86::X86Operand::Kind::Register &&
+                           inst.operands[1].kind == x86::X86Operand::Kind::Register) {
+                    ir::Value src = b.MakeRegValue(inst.operands[1].reg);
+                    b.AppendStoreReg(inst.operands[0].reg, src);
+                } else {
+                    PAS_LOG_WARN("IrBuilder", "MOV con combinacion no soportada");
                 }
-                ir::Value src;
-                if (!LoadOperandValue(block, x.operands[1], src)) {
-                    PAS_LOG_ERROR("IrBuilder", "MOV con origen de memoria no soportado "
-                                               "todavia (addr=0x%08x)", x.address);
-                    goto unsupported;
+                break;
+            }
+
+            case x86::Opcode::Lea: {
+                if (inst.operands[1].kind != x86::X86Operand::Kind::Memory) {
+                    PAS_LOG_ERROR("IrBuilder", "LEA con operando no-memoria");
+                    break;
                 }
-                EmitStoreReg(block, x.operands[0].reg, src);
+                ir::Instruction ir;
+                ir.op = ir::OpCode::Lea;
+                b.FillMemOperand(ir, inst.operands[1]);
+                ir.dst = b.NextValue();
+                b.block.instructions.push_back(ir);
+                b.AppendStoreReg(inst.operands[0].reg, ir.dst);
+                break;
+            }
+
+            case x86::Opcode::Push: {
+                ir::Instruction ir;
+                ir.op = ir::OpCode::Push;
+                ir.src[0] = b.MakeRegOrImm(inst.operands[0]);
+                b.block.instructions.push_back(ir);
+                break;
+            }
+
+            case x86::Opcode::Pop: {
+                ir::Instruction ir;
+                ir.op = ir::OpCode::Pop;
+                ir.dst = b.NextValue();
+                b.block.instructions.push_back(ir);
+                b.AppendStoreReg(inst.operands[0].reg, ir.dst);
                 break;
             }
 
@@ -120,77 +141,79 @@ ir::Block IrBuilder::BuildBlock(const x86::X86Instruction* instructions, size_t 
             case x86::Opcode::Or:
             case x86::Opcode::Xor:
             case x86::Opcode::Cmp: {
-                if (x.operands[0].kind != x86::X86Operand::Kind::Register) {
-                    PAS_LOG_ERROR("IrBuilder", "Grupo1 con destino de memoria no soportado "
-                                               "todavia (addr=0x%08x)", x.address);
-                    goto unsupported;
-                }
-                ir::Value lhs = EmitLoadReg(block, x.operands[0].reg);
-                ir::Value rhs;
-                if (!LoadOperandValue(block, x.operands[1], rhs)) {
-                    PAS_LOG_ERROR("IrBuilder", "Grupo1 con segundo operando de memoria no "
-                                               "soportado todavia (addr=0x%08x)", x.address);
-                    goto unsupported;
-                }
-
                 ir::OpCode ir_op;
-                switch (x.opcode) {
+                switch (inst.opcode) {
                     case x86::Opcode::Add: ir_op = ir::OpCode::Add; break;
                     case x86::Opcode::Sub: ir_op = ir::OpCode::Sub; break;
                     case x86::Opcode::And: ir_op = ir::OpCode::And; break;
-                    case x86::Opcode::Or:  ir_op = ir::OpCode::Or;  break;
+                    case x86::Opcode::Or:  ir_op = ir::OpCode::Or; break;
                     case x86::Opcode::Xor: ir_op = ir::OpCode::Xor; break;
-                    case x86::Opcode::Cmp: ir_op = ir::OpCode::Sub; break; // CMP = SUB descartando el resultado
+                    case x86::Opcode::Cmp: ir_op = ir::OpCode::Sub; break;
                     default: ir_op = ir::OpCode::Nop; break;
                 }
-                ir::Value result = EmitBinOp(block, ir_op, lhs, rhs);
 
-                if (x.opcode != x86::Opcode::Cmp) {
-                    EmitStoreReg(block, x.operands[0].reg, result);
+                ir::Value lhs = b.MakeRegOrImm(inst.operands[0]);
+                ir::Value rhs = b.MakeRegOrImm(inst.operands[1]);
+                ir::Instruction ir;
+                ir.op = ir_op;
+                ir.src[0] = lhs;
+                ir.src[1] = rhs;
+                ir.dst = b.NextValue();
+                b.block.instructions.push_back(ir);
+
+                if (inst.opcode != x86::Opcode::Cmp) {
+                    if (inst.operands[0].kind == x86::X86Operand::Kind::Register) {
+                        b.AppendStoreReg(inst.operands[0].reg, ir.dst);
+                    } else if (inst.operands[0].kind == x86::X86Operand::Kind::Memory) {
+                        ir::Instruction store;
+                        store.op = ir::OpCode::StoreMem;
+                        store.src[0] = ir.dst;
+                        b.FillMemOperand(store, inst.operands[0]);
+                        b.block.instructions.push_back(store);
+                    }
                 }
-                // TODO: CompareAndSetFlags -- no emitido todavia porque
-                // nada lo consume aun (Jcc no esta decodificado, ver
-                // docs/ROADMAP.md). Cuando se aÃ±ada Jcc, esta es la
-                // instruccion Add/Sub/And/etc. de arriba la que debe
-                // llevar aparejado un CompareAndSetFlags.
                 break;
             }
 
-            case x86::Opcode::Ret:
-                EmitReturn(block);
+            case x86::Opcode::Call: {
+                ir::Instruction ir;
+                ir.op = ir::OpCode::Call;
+                ir.immediate = inst.operands[0].immediate;
+                b.block.instructions.push_back(ir);
                 break;
+            }
+
+            case x86::Opcode::Ret: {
+                ir::Instruction ir;
+                ir.op = ir::OpCode::Return;
+                b.block.instructions.push_back(ir);
+                break;
+            }
+
+            case x86::Opcode::Nop: {
+                ir::Instruction ir;
+                ir.op = ir::OpCode::Nop;
+                b.block.instructions.push_back(ir);
+                break;
+            }
 
             default:
-                PAS_LOG_ERROR("IrBuilder", "Opcode x86 sin lowering a IR todavia (addr=0x%08x) "
-                                           "-- ver ir_builder.cpp para el alcance actual",
-                              x.address);
-                goto unsupported;
+                PAS_LOG_WARN("IrBuilder", "Opcode x86 no mapeado: %d",
+                             static_cast<int>(inst.opcode));
+                break;
         }
     }
 
-    // Calcular next_guest_address para el dispatcher
     if (count > 0) {
-        const auto& last_inst = instructions[count - 1];
-        if (last_inst.opcode == x86::Opcode::Ret) {
-            block.next_guest_address = 0xFFFFFFFF;  // sentinel: terminar
-        } else {
-            // Dirección después de la última instrucción del bloque
-            block.next_guest_address = last_inst.address + last_inst.length;
-        }
+        const auto& last = instructions[count - 1];
+        b.block.next_guest_address = last.address + last.length;
     }
 
-    return block;
-
-unsupported:
-    // Se devuelve el bloque parcial construido hasta el punto de fallo --
-    // el llamador (jit.cpp) debe comprobar esto y tratarlo como fallo de
-    // traduccion del bloque completo, no ejecutar un bloque a medias.
-    return block;
+    return b.block;
 }
 
-void IrBuilder::ApplyPatches(ir::Block& /*block*/) {
-    // TODO: consultar patch::PatchEngine (src/patch/) por patches que
-    // afecten a block.guest_address. Ver docs/PATCHING.md.
+void IrBuilder::ApplyPatches(ir::Block& block) {
+    (void)block;
 }
 
 } // namespace pas::cpu::translator

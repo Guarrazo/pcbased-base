@@ -1,10 +1,10 @@
 file(REMOVE_RECURSE
-  "CMakeFiles/pas_profiles.dir/game_profile.cpp.obj"
-  "CMakeFiles/pas_profiles.dir/game_profile.cpp.obj.d"
-  "CMakeFiles/pas_profiles.dir/json_lite.cpp.obj"
-  "CMakeFiles/pas_profiles.dir/json_lite.cpp.obj.d"
-  "CMakeFiles/pas_profiles.dir/platform_profile.cpp.obj"
-  "CMakeFiles/pas_profiles.dir/platform_profile.cpp.obj.d"
+  "CMakeFiles/pas_profiles.dir/game_profile.cpp.o"
+  "CMakeFiles/pas_profiles.dir/game_profile.cpp.o.d"
+  "CMakeFiles/pas_profiles.dir/json_lite.cpp.o"
+  "CMakeFiles/pas_profiles.dir/json_lite.cpp.o.d"
+  "CMakeFiles/pas_profiles.dir/platform_profile.cpp.o"
+  "CMakeFiles/pas_profiles.dir/platform_profile.cpp.o.d"
   "libpas_profiles.a"
   "libpas_profiles.pdb"
 )

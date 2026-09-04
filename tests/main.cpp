@@ -14,10 +14,22 @@ void RunX86DecoderTests();
 void RunArm64DynamicExecTests();
 void RunIrEndToEndTests();
 void RunJitIntegrationTests();
+void RunPhase1MemoryStackTests();
 
 int main() {
-    std::printf("== Running JIT Integration Tests Only ==\n");
+    std::printf("== Running all tests ==\n");
+    RunPatchEngineTests();
+    RunElfLoaderTests();
+    RunCodeCacheTests();
+    RunJsonLiteTests();
+    RunGameProfileTests();
+    RunArm64EmitterTests();
+    RunElfLoaderRealBinaryTests();
+    RunX86DecoderTests();
+    RunArm64DynamicExecTests();
+    RunIrEndToEndTests();
     RunJitIntegrationTests();
-    std::printf("== JIT Integration Tests passed ==\n");
+    RunPhase1MemoryStackTests();
+    std::printf("== All tests passed ==\n");
     return 0;
 }

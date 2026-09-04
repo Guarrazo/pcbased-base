@@ -8,9 +8,9 @@ set(CMAKE_DEPENDS_LANGUAGES
 
 # The set of dependency files which are needed:
 set(CMAKE_DEPENDS_DEPENDENCY_FILES
-  "C:/Users/Guarrazo/Desktop/pc-arcade-switch/src/os/elf_loader/elf_loader.cpp" "src/os/CMakeFiles/pas_os.dir/elf_loader/elf_loader.cpp.obj" "gcc" "src/os/CMakeFiles/pas_os.dir/elf_loader/elf_loader.cpp.obj.d"
-  "C:/Users/Guarrazo/Desktop/pc-arcade-switch/src/os/filesystem/virtual_fs.cpp" "src/os/CMakeFiles/pas_os.dir/filesystem/virtual_fs.cpp.obj" "gcc" "src/os/CMakeFiles/pas_os.dir/filesystem/virtual_fs.cpp.obj.d"
-  "C:/Users/Guarrazo/Desktop/pc-arcade-switch/src/os/syscall/libc_shim.cpp" "src/os/CMakeFiles/pas_os.dir/syscall/libc_shim.cpp.obj" "gcc" "src/os/CMakeFiles/pas_os.dir/syscall/libc_shim.cpp.obj.d"
+  "/c/Users/Guarrazo/Desktop/pc-arcade-switch/pcbased-switch/src/os/elf_loader/elf_loader.cpp" "src/os/CMakeFiles/pas_os.dir/elf_loader/elf_loader.cpp.o" "gcc" "src/os/CMakeFiles/pas_os.dir/elf_loader/elf_loader.cpp.o.d"
+  "/c/Users/Guarrazo/Desktop/pc-arcade-switch/pcbased-switch/src/os/filesystem/virtual_fs.cpp" "src/os/CMakeFiles/pas_os.dir/filesystem/virtual_fs.cpp.o" "gcc" "src/os/CMakeFiles/pas_os.dir/filesystem/virtual_fs.cpp.o.d"
+  "/c/Users/Guarrazo/Desktop/pc-arcade-switch/pcbased-switch/src/os/syscall/libc_shim.cpp" "src/os/CMakeFiles/pas_os.dir/syscall/libc_shim.cpp.o" "gcc" "src/os/CMakeFiles/pas_os.dir/syscall/libc_shim.cpp.o.d"
   )
 
 # Targets to which this target links which contain Fortran sources.

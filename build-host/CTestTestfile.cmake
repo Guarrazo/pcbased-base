@@ -1,6 +1,6 @@
 # CMake generated Testfile for 
-# Source directory: C:/Users/Guarrazo/Desktop/pc-arcade-switch
-# Build directory: C:/Users/Guarrazo/Desktop/pc-arcade-switch/build-host
+# Source directory: /c/Users/Guarrazo/Desktop/pc-arcade-switch/pcbased-switch
+# Build directory: /c/Users/Guarrazo/Desktop/pc-arcade-switch/pcbased-switch/build-host
 # 
 # This file includes the relevant testing commands required for 
 # testing this directory and lists subdirectories to be tested as well.

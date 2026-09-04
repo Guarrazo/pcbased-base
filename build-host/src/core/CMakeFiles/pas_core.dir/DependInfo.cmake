@@ -8,9 +8,9 @@ set(CMAKE_DEPENDS_LANGUAGES
 
 # The set of dependency files which are needed:
 set(CMAKE_DEPENDS_DEPENDENCY_FILES
-  "C:/Users/Guarrazo/Desktop/pc-arcade-switch/src/core/config.cpp" "src/core/CMakeFiles/pas_core.dir/config.cpp.obj" "gcc" "src/core/CMakeFiles/pas_core.dir/config.cpp.obj.d"
-  "C:/Users/Guarrazo/Desktop/pc-arcade-switch/src/core/log.cpp" "src/core/CMakeFiles/pas_core.dir/log.cpp.obj" "gcc" "src/core/CMakeFiles/pas_core.dir/log.cpp.obj.d"
-  "C:/Users/Guarrazo/Desktop/pc-arcade-switch/src/core/module.cpp" "src/core/CMakeFiles/pas_core.dir/module.cpp.obj" "gcc" "src/core/CMakeFiles/pas_core.dir/module.cpp.obj.d"
+  "/c/Users/Guarrazo/Desktop/pc-arcade-switch/pcbased-switch/src/core/config.cpp" "src/core/CMakeFiles/pas_core.dir/config.cpp.o" "gcc" "src/core/CMakeFiles/pas_core.dir/config.cpp.o.d"
+  "/c/Users/Guarrazo/Desktop/pc-arcade-switch/pcbased-switch/src/core/log.cpp" "src/core/CMakeFiles/pas_core.dir/log.cpp.o" "gcc" "src/core/CMakeFiles/pas_core.dir/log.cpp.o.d"
+  "/c/Users/Guarrazo/Desktop/pc-arcade-switch/pcbased-switch/src/core/module.cpp" "src/core/CMakeFiles/pas_core.dir/module.cpp.o" "gcc" "src/core/CMakeFiles/pas_core.dir/module.cpp.o.d"
   )
 
 # Targets to which this target links which contain Fortran sources.

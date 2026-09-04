@@ -1,10 +1,10 @@
 file(REMOVE_RECURSE
-  "CMakeFiles/pas_os.dir/elf_loader/elf_loader.cpp.obj"
-  "CMakeFiles/pas_os.dir/elf_loader/elf_loader.cpp.obj.d"
-  "CMakeFiles/pas_os.dir/filesystem/virtual_fs.cpp.obj"
-  "CMakeFiles/pas_os.dir/filesystem/virtual_fs.cpp.obj.d"
-  "CMakeFiles/pas_os.dir/syscall/libc_shim.cpp.obj"
-  "CMakeFiles/pas_os.dir/syscall/libc_shim.cpp.obj.d"
+  "CMakeFiles/pas_os.dir/elf_loader/elf_loader.cpp.o"
+  "CMakeFiles/pas_os.dir/elf_loader/elf_loader.cpp.o.d"
+  "CMakeFiles/pas_os.dir/filesystem/virtual_fs.cpp.o"
+  "CMakeFiles/pas_os.dir/filesystem/virtual_fs.cpp.o.d"
+  "CMakeFiles/pas_os.dir/syscall/libc_shim.cpp.o"
+  "CMakeFiles/pas_os.dir/syscall/libc_shim.cpp.o.d"
   "libpas_os.a"
   "libpas_os.pdb"
 )

@@ -1,2 +1,2 @@
-C:/devkitPro/msys2/usr/bin/ar.exe qc libpas_os.a CMakeFiles/pas_os.dir/elf_loader/elf_loader.cpp.obj CMakeFiles/pas_os.dir/syscall/libc_shim.cpp.obj CMakeFiles/pas_os.dir/filesystem/virtual_fs.cpp.obj
-C:/devkitPro/msys2/usr/bin/ranlib.exe libpas_os.a
+/usr/bin/ar.exe qc libpas_os.a CMakeFiles/pas_os.dir/elf_loader/elf_loader.cpp.o CMakeFiles/pas_os.dir/syscall/libc_shim.cpp.o CMakeFiles/pas_os.dir/filesystem/virtual_fs.cpp.o
+/usr/bin/ranlib.exe libpas_os.a
