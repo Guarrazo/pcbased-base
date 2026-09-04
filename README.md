@@ -2,7 +2,7 @@
 
 Compatibility layer para ejecutar juegos arcade PC-based (empezando por **Sega Lindbergh**) en Nintendo Switch homebrew, sin emular un PC completo.
 
-Este repositorio es el resultado de una investigación técnica dirigida (ver `docs/`) antes de escribir una sola línea de traductor. **Lee `docs/STATE_OF_THE_ART.md` y `docs/ARCHITECTURE.md` antes de tocar código** — explican por qué se descartó Win32/Wine para el MVP, por qué Lindbergh y no un sistema Windows, y qué partes del proyecto Super3-NX (JIT PowerPC→ARM64) se reutilizan directamente.
+Este repositorio es el resultado de una investigación técnica dirigida antes de escribir una sola línea de traductor. **Lee `docs/STATE_OF_THE_ART.md` y `docs/ARCHITECTURE.md` antes de tocar código** — explican por qué se descartó Win32/Wine para el MVP, por qué Lindbergh y no un sistema Windows.
 
 ## Documentación
 
